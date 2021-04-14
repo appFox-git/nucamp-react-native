@@ -2,7 +2,14 @@ import React, { Component } from 'react';
 import { Text, View, ScrollView } from 'react-native';
 import { Card, ListItem } from 'react-native-elements';
 import { FlatList } from 'react-native';
-import { PARTNERS } from '../shared/partners';
+import { connect } from 'react-redux';
+import { baseURL } from '../shared/baseUrl';
+
+const mapStateToProps = state => {
+    return {
+        partners: state.partners
+    };
+};
 
 
 function Mission() {
@@ -20,12 +27,6 @@ function Mission() {
 }
 
 class About extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            Partners: PARTNERS
-        };
-    }
 
     // configure text for DirectoryNavigatorScreen title
     static navigationOptions = {
@@ -39,7 +40,7 @@ class About extends Component {
                 <ListItem
                     title={item.name}
                     subtitle={item.description}
-                    leftAvatar={{ source: require('./images/bootstrap-logo.png')}}
+                    leftAvatar={{ source: {uri: baseURL + item.image}}}
                 />
             );
         };
@@ -49,7 +50,7 @@ class About extends Component {
                 <Card>
                     <Mission/>
                     <FlatList
-                        data={this.state.Partners}
+                        data={this.props.partners.partners}
                         keyExtractor={item => item.id.toString()}
                         renderItem={renderPartner}
                     />
@@ -59,4 +60,4 @@ class About extends Component {
     }
 }
 
-export default About;
+export default connect(mapStateToProps)(About);

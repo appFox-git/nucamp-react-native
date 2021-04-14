@@ -31,7 +31,11 @@ export const addComments = comments => ({
     payload: comments
 });
 
-
+// action creator is wrapped in an additional function, so redux thunk
+// will intercept action creator and stop the dispatch from going to reducer. 
+// Instead, it will send an asynchronous to the server in baseURL using fetch.
+// fetch then returns a promise, to either dispatch the addComments or
+// commentsFailed function.
 export const fetchCampsites = () => dispatch => {
 
     dispatch(campsitesLoading());
