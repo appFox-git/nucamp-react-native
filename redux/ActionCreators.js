@@ -148,3 +148,19 @@ export const addPartners = partners => ({
     type: ActionTypes.ADD_PARTNERS,
     payload: partners
 });
+
+// pass in campsiteId of favorite, then wrap in 2nd function (using Redux Thunk)\
+// pass in dispatch function. Set up a simulated server response, then dispatch
+// the addFavorite function with the campsiteId.
+export const postFavorite = campsiteId => dispatch => {
+    setTimeout(() => {
+        dispatch(addFavorite(campsiteId));
+    }, 2000);
+};
+
+// standard action creator (no Thunk), returns action object with action type and
+// payload which contains campsiteId
+export const addFavorite = campsiteId => ({
+    type: ActionTypes.ADD_FAVORITE,
+    payload: campsiteId
+});
