@@ -36,14 +36,12 @@ class Favorites extends Component {
               style={styles.deleteTouchable}
               onPress={() =>
                 Alert.alert(
-                  'Delete Favorite?',
-                  'Are you sure you wish to delete the favorite campsite ' +
-                    item.name +
-                    '?',
+                  `Delete Favorite?`,
+                  `Are you sure you wish to remove ${item.name} from your favorites list?`,
                   [
                     {
                       text: 'Cancel',
-                      onPress: () => console.log(item.name + 'Not Deleted'),
+                      onPress: () => console.log(`${item.name} not deleted.`),
                       style: 'cancel',
                     },
                     {
@@ -51,6 +49,7 @@ class Favorites extends Component {
                       onPress: () => this.props.deleteFavorite(item.id),
                     },
                   ],
+                  // prevents user from cancelling alert by touching outside of alert box (android feature)
                   { cancelable: false }
                 )
               }
