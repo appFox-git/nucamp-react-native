@@ -55,7 +55,7 @@ class Home extends Component {
     // native prior to starting.
     Animated.timing(this.state.scaleValue, {
       toValue: 1,
-      duration: 1000,
+      duration: 500,
       useNativeDriver: true,
     }).start();
   }

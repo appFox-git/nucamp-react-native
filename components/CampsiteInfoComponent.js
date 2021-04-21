@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -7,13 +7,14 @@ import {
   Modal,
   Button,
   StyleSheet,
-} from "react-native";
-import { Card, Icon, Input, Rating } from "react-native-elements";
-import { connect } from "react-redux";
-import { baseUrl } from "../shared/baseUrl";
-import { postComment, postFavorite } from "../redux/ActionCreators";
+} from 'react-native';
+import { Card, Icon, Input, Rating } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
+import { postComment, postFavorite } from '../redux/ActionCreators';
+import * as Animatable from 'react-native-animatable';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     campsites: state.campsites,
     comments: state.comments,
@@ -22,7 +23,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  postFavorite: (campsiteId) => postFavorite(campsiteId),
+  postFavorite: campsiteId => postFavorite(campsiteId),
   postComment: (campsiteId, rating, author, text) =>
     postComment(campsiteId, rating, author, text),
 };
@@ -32,34 +33,36 @@ function RenderCampsite(props) {
 
   if (campsite) {
     return (
-      <Card
-        featuredTitle={campsite.name}
-        image={{ uri: baseUrl + campsite.image }}
-      >
-        <Text style={{ margin: 10 }}>{campsite.description}</Text>
-        <View style={styles.cardRow}>
-          <Icon
-            name={props.favorite ? "heart" : "heart-o"}
-            type="font-awesome"
-            color="#f50"
-            raised
-            reverse
-            onPress={() =>
-              props.favorite
-                ? console.log("Already set as a favorite")
-                : props.markFavorite()
-            }
-          />
-          <Icon
-            name={"pencil"}
-            type="font-awesome"
-            color="#5637DD"
-            raised
-            reverse
-            onPress={() => props.onShowModal()}
-          />
-        </View>
-      </Card>
+      <Animatable.View animation='fadeInDown' duration={2000} delay={1000}>
+        <Card
+          featuredTitle={campsite.name}
+          image={{ uri: baseUrl + campsite.image }}
+        >
+          <Text style={{ margin: 10 }}>{campsite.description}</Text>
+          <View style={styles.cardRow}>
+            <Icon
+              name={props.favorite ? 'heart' : 'heart-o'}
+              type='font-awesome'
+              color='#f50'
+              raised
+              reverse
+              onPress={() =>
+                props.favorite
+                  ? console.log('Already set as a favorite')
+                  : props.markFavorite()
+              }
+            />
+            <Icon
+              name={'pencil'}
+              type='font-awesome'
+              color='#5637DD'
+              raised
+              reverse
+              onPress={() => props.onShowModal()}
+            />
+          </View>
+        </Card>
+      </Animatable.View>
     );
   }
   return <View />; // return empty View component if campsite doesnt exist.
@@ -81,7 +84,7 @@ function RenderComments({ comments }) {
           readonly
           count={5}
           imageSize={10}
-          style={{ alignItems: "flex-start", paddingVertical: "5%" }}
+          style={{ alignItems: 'flex-start', paddingVertical: '5%' }}
         />
         <Text
           style={{ fontSize: 12 }}
@@ -91,13 +94,15 @@ function RenderComments({ comments }) {
   };
 
   return (
-    <Card title="Comments">
-      <FlatList
-        data={comments}
-        renderItem={renderCommentItem}
-        keyExtractor={(item) => item.id.toString()}
-      />
-    </Card>
+    <Animatable.View animation='fadeInUp' duration={2000} delay={1000}>
+      <Card title='Comments'>
+        <FlatList
+          data={comments}
+          renderItem={renderCommentItem}
+          keyExtractor={item => item.id.toString()}
+        />
+      </Card>
+    </Animatable.View>
   );
 }
 
@@ -107,8 +112,8 @@ class CampsiteInfo extends Component {
     this.state = {
       showModal: false,
       rating: 5,
-      author: "",
-      text: "",
+      author: '',
+      text: '',
     };
   }
 
@@ -129,8 +134,8 @@ class CampsiteInfo extends Component {
   resetForm() {
     this.setState({
       rating: 5,
-      author: "",
-      text: "",
+      author: '',
+      text: '',
       showModal: false,
     });
   }
@@ -140,17 +145,17 @@ class CampsiteInfo extends Component {
   }
 
   static navigationOptions = {
-    title: "Campsite Information",
+    title: 'Campsite Information',
   };
 
   render() {
-    const campsiteId = this.props.navigation.getParam("campsiteId");
+    const campsiteId = this.props.navigation.getParam('campsiteId');
     const campsite = this.props.campsites.campsites.filter(
-      (campsite) => campsite.id === campsiteId
+      campsite => campsite.id === campsiteId
     )[0];
     // create array of comments for chosen campsite. To then be passed to RenderComponents.
     const comments = this.props.comments.comments.filter(
-      (comment) => comment.campsiteId === campsiteId
+      comment => comment.campsiteId === campsiteId
     );
     return (
       <ScrollView>
@@ -163,7 +168,7 @@ class CampsiteInfo extends Component {
         <RenderComments comments={comments} />
 
         <Modal
-          animationType={"slide"}
+          animationType={'slide'}
           transparent={false}
           visible={this.state.showModal}
           onRequestClose={() => this.toggleModal()}
@@ -174,31 +179,31 @@ class CampsiteInfo extends Component {
               count={5}
               startingValue={this.state.rating}
               imageSize={40}
-              onFinishRating={(rating) => this.setState({ rating: rating })}
+              onFinishRating={rating => this.setState({ rating: rating })}
               style={{ paddingVertical: 10 }}
             ></Rating>
             <Input
-              placeholder={"Author"}
+              placeholder={'Author'}
               leftIcon={
-                <Icon name={"user-o"} type="font-awesome" color="#5637DD" />
+                <Icon name={'user-o'} type='font-awesome' color='#5637DD' />
               }
               leftIconContainerStyle={{ paddingRight: 10 }}
-              onChangeText={(author) => this.setState({ author: author })}
+              onChangeText={author => this.setState({ author: author })}
               value={this.author}
             ></Input>
             <Input
-              placeholder={"Comment"}
+              placeholder={'Comment'}
               leftIcon={
-                <Icon name={"comment-o"} type="font-awesome" color="#5637DD" />
+                <Icon name={'comment-o'} type='font-awesome' color='#5637DD' />
               }
               leftIconContainerStyle={{ paddingRight: 10 }}
-              onChangeText={(text) => this.setState({ text: text })}
+              onChangeText={text => this.setState({ text: text })}
               value={this.text}
             ></Input>
             <View style={{ margin: 10 }}>
               <Button
-                title="Submit"
-                color="#5637DD"
+                title='Submit'
+                color='#5637DD'
                 onPress={() => {
                   this.handleComment(campsiteId);
                   this.resetForm();
@@ -211,8 +216,8 @@ class CampsiteInfo extends Component {
                   this.toggleModal();
                   this.resetForm();
                 }}
-                color="#808080"
-                title="Cancel"
+                color='#808080'
+                title='Cancel'
               ></Button>
             </View>
           </View>
@@ -224,14 +229,14 @@ class CampsiteInfo extends Component {
 
 const styles = StyleSheet.create({
   cardRow: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
     margin: 20,
   },
   modal: {
-    justifyContent: "center",
+    justifyContent: 'center',
     margin: 20,
   },
 });
