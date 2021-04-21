@@ -4,6 +4,8 @@ import { Card } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import Loading from './LoadingComponent';
+import * as Animatable from 'react-native-animatable';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const mapStateToProps = state => {
   return {
@@ -70,35 +72,41 @@ class Home extends Component {
 
   render() {
     return (
-      <Animated.ScrollView
-        style={{ transform: [{ scale: this.state.scaleValue }] }}
-      >
-        <RenderItem
-          item={
-            this.props.campsites.campsites.filter(
-              campsite => campsite.featured
-            )[0]
-          }
-          isLoading={this.props.campsites.isLoading}
-          errMess={this.props.campsites.errMess}
-        />
-        <RenderItem
-          item={
-            this.props.promotions.promotions.filter(
-              promotion => promotion.featured
-            )[0]
-          }
-          isLoading={this.props.promotions.isLoading}
-          errMess={this.props.promotions.errMess}
-        />
-        <RenderItem
-          item={
-            this.props.partners.partners.filter(partner => partner.featured)[0]
-          }
-          isLoading={this.props.partners.isLoading}
-          errMess={this.props.partners.errMess}
-        />
-      </Animated.ScrollView>
+      <ScrollView>
+        <Animatable.View animation='fadeInRightBig' duration={500}>
+          <RenderItem
+            item={
+              this.props.campsites.campsites.filter(
+                campsite => campsite.featured
+              )[0]
+            }
+            isLoading={this.props.campsites.isLoading}
+            errMess={this.props.campsites.errMess}
+          />
+        </Animatable.View>
+        <Animatable.View animation='fadeInLeftBig' duration={500}>
+          <RenderItem
+            item={
+              this.props.promotions.promotions.filter(
+                promotion => promotion.featured
+              )[0]
+            }
+            isLoading={this.props.promotions.isLoading}
+            errMess={this.props.promotions.errMess}
+          />
+        </Animatable.View>
+        <Animatable.View animation='fadeInRightBig' duration={500}>
+          <RenderItem
+            item={
+              this.props.partners.partners.filter(
+                partner => partner.featured
+              )[0]
+            }
+            isLoading={this.props.partners.isLoading}
+            errMess={this.props.partners.errMess}
+          />
+        </Animatable.View>
+      </ScrollView>
     );
   }
 }

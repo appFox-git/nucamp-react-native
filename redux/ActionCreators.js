@@ -166,7 +166,7 @@ export const addPartners = partners => ({
 export const postFavorite = campsiteId => dispatch => {
   setTimeout(() => {
     dispatch(addFavorite(campsiteId));
-  }, 2000);
+  }, 100);
 };
 
 // standard action creator (no Thunk), returns action object with action type and
