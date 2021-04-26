@@ -33,28 +33,7 @@ class Favorites extends Component {
       return (
         <SwipeRow rightOpenValue={-100} style={styles.swipeRow}>
           <View style={styles.deleteView}>
-            <TouchableOpacity
-              style={styles.deleteTouchable}
-              onPress={() =>
-                Alert.alert(
-                  `Delete Favorite?`,
-                  `Are you sure you wish to remove ${item.name} from your favorites list?`,
-                  [
-                    {
-                      text: 'Cancel',
-                      onPress: () => console.log(`${item.name} not deleted.`),
-                      style: 'cancel',
-                    },
-                    {
-                      text: 'OK',
-                      onPress: () => this.props.deleteFavorite(item.id),
-                    },
-                  ],
-                  // prevents user from cancelling alert by touching outside of alert box (android feature)
-                  { cancelable: false }
-                )
-              }
-            >
+            <TouchableOpacity style={styles.deleteTouchable}>
               <Text style={styles.deleteText}>Delete</Text>
             </TouchableOpacity>
           </View>
